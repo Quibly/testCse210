@@ -1,5 +1,5 @@
 from game.casting.actor import Actor
-import datetime;
+import datetime
 
 class Artifact(Actor):
     """
