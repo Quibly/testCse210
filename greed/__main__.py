@@ -1,3 +1,4 @@
+from email import message
 import os
 import random
 
@@ -23,11 +24,17 @@ COLS = 60
 ROWS = 40
 CAPTION = "Greed"
 WHITE = Color(255, 255, 255)
-DEFAULT_ARTIFACTS = 80
+DEFAULT_ARTIFACTS = int(40)
 
 
 def main():
     
+    #set difficulty settings before game display loads
+    difficulty = int(input('What level of difficulty would you prefer? 1, 2, or 3 (1 is the easiest)?: '))
+    if difficulty == 2:
+        DEFAULT_ARTIFACTS = int(80)
+    elif difficulty == 3:
+        DEFAULT_ARTIFACTS = int(120)
     # create the cast
     cast = Cast()
     
@@ -41,7 +48,7 @@ def main():
     
     # create the robot
     x = int(MAX_X / 2)
-    y = int(MAX_Y / 2)
+    y = int(MAX_Y-CELL_SIZE)
     position = Point(x, y)
 
     robot = Actor()
@@ -52,12 +59,19 @@ def main():
     cast.add_actor("robots", robot)
     
     # create the artifacts
+    '''
+    o = rocks
+    * = gems
+    The list is used to randomly select the characters
+    '''
+
+    list = [ "O" , "*"]
+
     for n in range(DEFAULT_ARTIFACTS):
-        if n < 21:
-            text = '*'
+        text = random.choice(list)
+        if text == '*':
             message = +1
         else:
-            text = 'o'
             message = -1
 
         x = random.randint(1, COLS - 1)
@@ -84,7 +98,7 @@ def main():
     keyboard_service = KeyboardService(CELL_SIZE)
     video_service = VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE)
     director = Director(keyboard_service, video_service)
-    director.start_game(cast)
+    director.start_game(cast, COLS, CELL_SIZE, difficulty)
 
 
 if __name__ == "__main__":
