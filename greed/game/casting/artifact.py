@@ -1,6 +1,7 @@
 from game.casting.actor import Actor
 import datetime
 
+
 class Artifact(Actor):
     """
     An item of cultural or historical interest. 
@@ -9,13 +10,19 @@ class Artifact(Actor):
 
     Attributes:
         _message (string): A short description about the artifact.
-        _last_mod (float): A variable to hold a timestamp.
+        _last_mod (float): Holds a timestamp for the last modification of velocity for the artificats. 
+                           This is used to control artifact scroll speed.
+        _display (int): holds variable for display status. A negative display value will prevent display.
     """
     def __init__(self):
+        """
+        Adds _message details for scoring and _last_mod for artifact movement speed.
+        """
         super().__init__()
         self._message = ""
         self._last_mod = float(0)
-        
+        self._display = int()
+                
     def get_message(self):
         """Gets the artifact's message.
         
@@ -42,13 +49,34 @@ class Artifact(Actor):
 
     def set_last_mod(self):
         """Updates the last modifaction attribute.
-        
+                
         Args:
+            current_time (float): the current date and time.  Used to track difference of modified items.
             last_mod (float): The given timestamp
         """
         current_time = datetime.datetime.now()
         timestamp =current_time.timestamp()
         self._last_mod = timestamp
+
+    def get_display(self):
+        """Gets the artifact's display status.
+        
+        Returns:
+            display (integer): the display status value.
+        """
+        return self._display
+    
+    def set_display(self, display):
+        """Updates the display.
+        
+        Args:
+            display (integer): the display status value.
+        """
+        self._display = int(display)
+        
+
+        
+
  
         
 
